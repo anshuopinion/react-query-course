@@ -5,13 +5,13 @@ import { useState } from "react";
 import { BlogType } from "@/types";
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
+  DialogHeader,
   DialogTitle,
+  DialogContent,
   DialogTrigger,
-} from "@radix-ui/react-dialog";
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 export interface BlogHandlerProps {
   isUpdate?: boolean;
