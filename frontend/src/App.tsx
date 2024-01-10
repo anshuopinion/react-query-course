@@ -7,7 +7,8 @@ import { Blogs } from "./pages/blogs/Blogs";
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {},
-});
+});import { Blogs } from "./pages/blogs/Blogs";
+
 const App = () => {
   return (
     <>
