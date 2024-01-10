@@ -1,9 +1,9 @@
-import { Blogs } from "./components/blogs/Blogs";
 import { Toaster } from "./components/ui/toaster";
 import { Route, Routes } from "react-router-dom";
 import { EachBlog } from "./pages/each-blog/EachBlog";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Blogs } from "./pages/blogs/Blogs";
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {},
