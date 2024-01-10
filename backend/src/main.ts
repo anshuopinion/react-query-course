@@ -1,6 +1,6 @@
 import express, { ErrorRequestHandler } from "express";
 import mongoose from "mongoose";
-import { DB_URL } from "./config";
+import { DB_URL, PORT } from "./config";
 import cors from "cors";
 
 // Routes
@@ -8,7 +8,6 @@ import blog from "./routes/blog";
 import HttpError from "./utils/http-error";
 
 const app = express();
-const PORT = 4000;
 const corsOptions = {
   credentials: true,
   origin: "*",
