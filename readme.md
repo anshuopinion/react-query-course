@@ -8,7 +8,7 @@
 
 ```
 PORT=5000
-MONGO_URI=YOUR_MONGO_URI
+MONGO_URI=mongodb+srv://username:password@clustor-url/react_query_v5?retryWrites=true&w=majority
 
 ```
 
