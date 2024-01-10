@@ -7,7 +7,7 @@
 3. Add the following variables to the .env file
 
 ```
-PORT=5000
+PORT=4000
 MONGO_URI=mongodb+srv://username:password@clustor-url/react_query_v5?retryWrites=true&w=majority
 
 ```
