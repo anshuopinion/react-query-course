@@ -1,9 +1,29 @@
 import { BlogHandler } from "./BlogHandler";
 import { BlogCard } from "./BlogCard";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 export interface BlogsProps {}
+
+const baseUrl = "http://localhost:400/api";
+
+const getBlogs = async () => {
+  try {
+    const { data } = await axios.get(`${baseUrl}/blogs`);
+    return data;
+  } catch (error) {
+    throw new Error("This is our message");
+  }
+};
 
 export function Blogs(props: BlogsProps) {
   const {} = props;
+
+  const blogsQuery = useQuery({
+    queryKey: ["BLOGS"],
+    queryFn: getBlogs,
+  });
+
+  console.log("Blogs", blogsQuery?.data);
 
   const blogs = [
     {
