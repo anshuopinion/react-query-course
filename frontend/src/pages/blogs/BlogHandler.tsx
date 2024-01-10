@@ -25,7 +25,9 @@ export function BlogHandler(props: BlogHandlerProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)}>Add Blog</Button>
+        <Button size="sm" onClick={() => setOpen(true)}>
+          Add Blog
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

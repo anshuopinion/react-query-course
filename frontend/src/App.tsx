@@ -1,7 +1,7 @@
-import { Blogs } from "./components/blogs/Blogs";
 import { Toaster } from "./components/ui/toaster";
 import { Route, Routes } from "react-router-dom";
 import { EachBlog } from "./pages/each-blog/EachBlog";
+import { Blogs } from "./pages/blogs/Blogs";
 
 const App = () => {
   return (

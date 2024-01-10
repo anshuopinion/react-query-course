@@ -23,14 +23,14 @@ export function BlogCard(props: BlogCardProps) {
             <Button size={"sm"} className="bg-red-500 text-white">
               Delete
             </Button>
-            <div>
-              <Link to={`/blog/${blog._id}`}>
-                <Button>View</Button>
-              </Link>
-            </div>
           </div>
           <div>
             <BlogHandler blog={blog} isUpdate={true} />
+          </div>
+          <div>
+            <Link to={`/blog/${blog._id}`}>
+              <Button size="sm">View</Button>
+            </Link>
           </div>
         </div>
       </div>
