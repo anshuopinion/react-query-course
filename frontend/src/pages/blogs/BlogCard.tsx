@@ -25,7 +25,7 @@ export function BlogCard(props: BlogCardProps) {
             </Button>
           </div>
           <div>
-            <BlogHandler blog={blog} isUpdate={true} />
+            <BlogHandler blog={blog} />
           </div>
           <div>
             <Link to={`/blog/${blog._id}`}>

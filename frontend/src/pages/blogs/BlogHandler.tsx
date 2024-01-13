@@ -14,13 +14,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 export interface BlogHandlerProps {
-  isUpdate?: boolean;
   blog?: BlogType;
 }
 
 export function BlogHandler(props: BlogHandlerProps) {
   const [open, setOpen] = useState(false);
-  const { isUpdate = false, blog } = props;
+  const { blog } = props;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -38,11 +37,7 @@ export function BlogHandler(props: BlogHandlerProps) {
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Formik
-            initialValues={
-              isUpdate
-                ? { title: blog?.title, content: blog?.content }
-                : { title: "", content: "" }
-            }
+            initialValues={{ title: "", content: "" }}
             onSubmit={(values) => {
               console.log(values);
             }}
