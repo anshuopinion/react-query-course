@@ -41,9 +41,9 @@ export function Blogs(props: BlogsProps) {
         <div>Currently no blogs is Present</div>
       ) : (
         <div className="flex justify-center w-full  flex-col items-center  gap-7 mt-8">
-          {blogs?.map((blog) => (
-            <BlogCard blog={blog} key={blog._id} />
-          ))}
+          {blogs
+            ?.map((blog) => <BlogCard blog={blog} key={blog._id} />)
+            .reverse()}
         </div>
       )}
     </div>

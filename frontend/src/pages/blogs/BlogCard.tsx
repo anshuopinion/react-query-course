@@ -3,13 +3,39 @@ import { BlogType } from "@/types";
 import { BlogHandler } from "./BlogHandler";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBlog } from "@/api";
 export interface BlogCardProps {
   blog: BlogType;
 }
 
 export function BlogCard(props: BlogCardProps) {
   const { blog } = props;
+  const { toast } = useToast();
+  const cache = useQueryClient();
 
+  const deleteBlogMutation = useMutation({
+    mutationKey: ["DELETE_BLOG"],
+    mutationFn: deleteBlog,
+    onSuccess: () => {
+      toast({
+        title: "Deleted Successfully",
+        description: "Blog deleted successfully",
+        variant: "success",
+      });
+      cache.invalidateQueries({
+        queryKey: ["BLOGS"],
+      });
+    },
+    onError: (err) => {
+      toast({
+        title: "Error",
+        description: err.message,
+        variant: "destructive",
+      });
+    },
+  });
   return (
     <>
       <div
@@ -20,8 +46,16 @@ export function BlogCard(props: BlogCardProps) {
         <p className="text-md">{blog.content}</p>
         <div className="flex justify-end gap-4">
           <div>
-            <Button size={"sm"} className="bg-red-500 text-white">
-              Delete
+            <Button
+              onClick={() =>
+                deleteBlogMutation.mutate({
+                  id: blog._id,
+                })
+              }
+              size={"sm"}
+              className="bg-red-500 text-white"
+            >
+              {deleteBlogMutation.isPending ? "Deleting..." : "Delete"}
             </Button>
           </div>
           <div>
