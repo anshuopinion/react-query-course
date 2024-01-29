@@ -25,7 +25,7 @@ const getAllPagination: RequestHandler<
   any,
   GetAllPaginationType["query"]
 > = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 4 } = req.query;
   const skip = (Number(page) - 1) * Number(limit);
 
   try {
