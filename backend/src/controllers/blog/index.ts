@@ -24,7 +24,7 @@ const getAll: RequestHandler = async (req, res, next) => {
     const isFirstPage = Number(page) === 1;
 
     return res.json({
-      blogs,
+      data: blogs,
       pagination: {
         totalPages,
         first: isFirstPage,
