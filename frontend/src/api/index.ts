@@ -8,6 +8,14 @@ export const getBlogs = async () => {
     throw error.response.data;
   }
 };
+export const getPaginatedBlogs = async () => {
+  try {
+    const { data } = await Axios.get(`/blogs/pagination`);
+    return data;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
 
 export const createBlog = async ({
   title,

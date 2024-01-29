@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { BlogResponseType } from "@/types";
-import { getBlogs } from "@/api";
+import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
-export interface BlogsProps {}
+export interface PaginatedBlogsProps {}
 
-export function Blogs(props: BlogsProps) {
+export function PaginatedBlogs(props: PaginatedBlogsProps) {
   const {} = props;
 
   const { isLoading, data, error, isError } = useQuery<BlogResponseType>({
     queryKey: ["BLOGS"],
-    queryFn: getBlogs,
+    queryFn: getPaginatedBlogs,
   });
 
   const blogs = data?.data;
