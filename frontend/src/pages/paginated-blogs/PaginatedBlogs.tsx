@@ -3,6 +3,7 @@ import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
+import { Button } from "@/components/ui/button";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
@@ -43,6 +44,11 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
             .reverse()}
         </div>
       )}
+
+      <div className="mt-8 flex justify-between ">
+        <Button>Prev</Button>
+        <Button>Next</Button>
+      </div>
     </div>
   );
 }
