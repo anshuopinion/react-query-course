@@ -3,7 +3,15 @@ import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
-import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
@@ -45,10 +53,30 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
         </div>
       )}
 
-      <div className="mt-8 flex justify-between ">
-        <Button>Prev</Button>
-        <Button>Next</Button>
-      </div>
+      <Pagination className="mt-8">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              2
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
