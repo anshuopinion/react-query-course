@@ -3,7 +3,6 @@ import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
-import { useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -12,16 +11,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useNavigate, useParams } from "react-router-dom";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
   const {} = props;
-  const [page, setPage] = useState(1);
   const limit = 2;
+  const { currentPage } = useParams();
+  const page = currentPage ? parseInt(currentPage) : 1;
 
+  const navigate = useNavigate();
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery<BlogResponseType>({
-      queryKey: ["PAGINATED_BLOGS", page],
+      queryKey: ["PAGINATED_BLOGS", currentPage],
       queryFn: () => getPaginatedBlogs({ page, limit }),
       placeholderData: keepPreviousData,
     });
@@ -44,11 +46,11 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
 
   const nextPage = () => {
     if (data?.pagination.last) return;
-    setPage((old) => old + 1);
+    navigate(`/paginated/${page + 1}`);
   };
   const prevPage = () => {
     if (data?.pagination.first) return;
-    setPage((old) => old - 1);
+    navigate(`/paginated/${page - 1}`);
   };
 
   return (
@@ -71,7 +73,6 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
           <PaginationItem>
             <PaginationPrevious
               onClick={prevPage}
-              href="#"
               className={`
             ${data.pagination.first ? "cursor-not-allowed  text-gray-300" : ""}
             `}
@@ -79,9 +80,11 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
           </PaginationItem>
 
           {new Array(data.pagination.totalPages).fill("_").map((_, i) => (
-            <PaginationItem>
+            <PaginationItem key={i}>
               <PaginationLink
-                onClick={() => setPage(i + 1)}
+                onClick={() => {
+                  navigate(`/paginated/${i + 1}`);
+                }}
                 isActive={page === i + 1}
               >
                 {i + 1}

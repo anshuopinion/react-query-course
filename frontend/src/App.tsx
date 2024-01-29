@@ -16,7 +16,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path="/" element={<Blogs />} />
-          <Route path="/paginated" element={<PaginatedBlogs />} />
+          <Route path="/paginated/:currentPage" element={<PaginatedBlogs />} />
           <Route path="/blog/:id" element={<EachBlog />} />
         </Routes>
         <Toaster />
