@@ -1,22 +1,19 @@
-import { BlogHandler } from "./BlogHandler";
-import { BlogCard } from "./BlogCard";
 import { useQuery } from "@tanstack/react-query";
-import { BlogType } from "@/types";
+import { BlogResponseType } from "@/types";
 import { getBlogs } from "@/api";
+import { BlogHandler } from "../blogs/BlogHandler";
+import { BlogCard } from "../blogs/BlogCard";
 export interface BlogsProps {}
 
 export function Blogs(props: BlogsProps) {
   const {} = props;
 
-  const {
-    isLoading,
-    data: blogs,
-    error,
-    isError,
-  } = useQuery<BlogType[]>({
+  const { isLoading, data, error, isError } = useQuery<BlogResponseType>({
     queryKey: ["BLOGS"],
     queryFn: getBlogs,
   });
+
+  const blogs = data?.data;
 
   if (isLoading)
     return (

@@ -37,8 +37,16 @@ export const updateBlogSchema = z.object({
   }),
 });
 
+export const getAllPaginationSchema = z.object({
+  query: z.object({
+    page: z.string().optional(),
+    limit: z.string().optional(),
+  }),
+});
+
 // Generate TypeScript types from Zod schemas
 export type CreateBlogType = z.infer<typeof createBlogSchema>;
 export type UpdateBlogType = z.infer<typeof updateBlogSchema>;
 export type GetByIdType = z.infer<typeof getByIdSchema>;
 export type DeleteByIdType = z.infer<typeof deleteByIdSchema>;
+export type GetAllPaginationType = z.infer<typeof getAllPaginationSchema>;

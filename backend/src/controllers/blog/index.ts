@@ -4,6 +4,7 @@ import { InternalServerError, Conflict, NotFound } from "http-errors";
 import {
   CreateBlogType,
   DeleteByIdType,
+  GetAllPaginationType,
   GetByIdType,
   UpdateBlogType,
 } from "../../validation/blog";
@@ -11,6 +12,19 @@ import {
 import { validateObjectId } from "../../utils/validateObjectId";
 
 const getAll: RequestHandler = async (req, res, next) => {
+  try {
+    const blogs = await Blog.find();
+    if (blogs.length === 0) next(NotFound("No blogs found"));
+    return res.json(blogs);
+  } catch (error) {
+    next(InternalServerError());
+  }
+};
+const getAllPagination: RequestHandler<
+  {},
+  any,
+  GetAllPaginationType["query"]
+> = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;
   const skip = (Number(page) - 1) * Number(limit);
 
@@ -107,4 +121,11 @@ const deleteById: RequestHandler<DeleteByIdType["params"]> = async (
   }
 };
 
-export const blog = { getAll, create, getById, updateById, deleteById };
+export const blog = {
+  getAll,
+  create,
+  getById,
+  updateById,
+  deleteById,
+  getAllPagination,
+};
