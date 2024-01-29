@@ -8,9 +8,20 @@ export const getBlogs = async () => {
     throw error.response.data;
   }
 };
-export const getPaginatedBlogs = async () => {
+export const getPaginatedBlogs = async ({
+  page = 1,
+  limit = 4,
+}: {
+  page?: number;
+  limit?: number;
+}) => {
   try {
-    const { data } = await Axios.get(`/blogs/pagination`);
+    const { data } = await Axios.get(`/blogs/pagination`, {
+      params: {
+        page,
+        limit,
+      },
+    });
     return data;
   } catch (error: any) {
     throw error.response.data;

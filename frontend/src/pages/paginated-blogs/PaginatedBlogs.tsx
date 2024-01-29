@@ -1,22 +1,27 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
   const {} = props;
+  const [page, setPage] = useState(1);
+  const limit = 4;
 
-  const { isLoading, data, error, isError } = useQuery<BlogResponseType>({
-    queryKey: ["BLOGS"],
-    queryFn: getPaginatedBlogs,
-  });
+  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+    useQuery<BlogResponseType>({
+      queryKey: ["PAGINATED_BLOGS"],
+      queryFn: () => getPaginatedBlogs({ page, limit }),
+      placeholderData: keepPreviousData,
+    });
 
   const blogs = data?.data;
 
-  if (isLoading)
+  if (isPending)
     return (
       <div className="flex justify-center w-full  flex-col items-center  gap-7 mt-8">
         Loading...
@@ -44,9 +49,24 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
             .reverse()}
         </div>
       )}
-
+      <>
+        {isFetching && <div>Fetching...</div>}
+        {isPlaceholderData && <div>Loading...</div>}
+      </>
       <div className="mt-8 flex justify-between ">
         <Button>Prev</Button>
+        <div className="flex gap-4">
+          {new Array(5).fill(0).map((_, i) => (
+            <div
+              key={i}
+              className={`${
+                i + 1 === page ? "bg-gray-300" : "bg-gray-100"
+              } px-4 py-2 rounded-md`}
+            >
+              {i + 1}
+            </div>
+          ))}
+        </div>
         <Button>Next</Button>
       </div>
     </div>
