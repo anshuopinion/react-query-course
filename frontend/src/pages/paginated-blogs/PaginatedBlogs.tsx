@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
@@ -6,25 +6,43 @@ import { BlogCard } from "../blogs/BlogCard";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useNavigate, useParams } from "react-router-dom";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
   const {} = props;
 
-  const { isLoading, data, error, isError } = useQuery<BlogResponseType>({
-    queryKey: ["BLOGS"],
-    queryFn: getPaginatedBlogs,
-  });
+  const { currentPage } = useParams();
+  const navigate = useNavigate();
+  const page = currentPage ? parseInt(currentPage) : 1;
+
+  const { isPending, data, error, isError, isFetching } =
+    useQuery<BlogResponseType>({
+      queryKey: ["PaginatedBlogs", page],
+      queryFn: () => getPaginatedBlogs({ page, limit: 2 }),
+      placeholderData: keepPreviousData,
+    });
 
   const blogs = data?.data;
 
-  if (isLoading)
+  const totalPages = data?.pagination.totalPages;
+
+  const nextPage = () => {
+    if (data?.pagination.last) return;
+    navigate(`/paginated/${page + 1}`);
+  };
+
+  const prevPage = () => {
+    if (data?.pagination.first) return;
+    navigate(`/paginated/${page - 1}`);
+  };
+
+  if (isPending)
     return (
       <div className="flex justify-center w-full  flex-col items-center  gap-7 mt-8">
         Loading...
@@ -56,27 +74,41 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
       <Pagination className="mt-8">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              className={`
+            
+            ${data?.pagination.first ? "opacity-50 cursor-not-allowed" : ""}
+            `}
+              onClick={prevPage}
+            />
           </PaginationItem>
+          {new Array(totalPages).fill("_").map((_, i) => (
+            <PaginationItem>
+              <PaginationLink
+                isActive={i + 1 === page}
+                onClick={() => {
+                  navigate(`/paginated/${i + 1}`);
+                }}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
           <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              className={`
+            
+            ${data?.pagination.last ? "opacity-50 cursor-not-allowed" : ""}
+            `}
+              onClick={nextPage}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+      <div className="flex justify-center">
+        {isFetching && <div>Fetching...</div>}
+      </div>
     </div>
   );
 }
