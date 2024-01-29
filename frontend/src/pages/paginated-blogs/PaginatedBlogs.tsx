@@ -42,6 +42,15 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
       </div>
     );
 
+  const nextPage = () => {
+    if (data?.pagination.last) return;
+    setPage((old) => old + 1);
+  };
+  const prevPage = () => {
+    if (data?.pagination.first) return;
+    setPage((old) => old - 1);
+  };
+
   return (
     <div className="max-w-md mx-auto">
       <div className="flex  w-full justify-end mt-4">
@@ -56,15 +65,17 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
             .reverse()}
         </div>
       )}
-      <>
-        {isFetching && <div>Fetching...</div>}
-        {isPlaceholderData && <div>Loading...</div>}
-      </>
 
       <Pagination className="mt-8">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious
+              onClick={prevPage}
+              href="#"
+              className={`
+            ${data.pagination.first ? "cursor-not-allowed  text-gray-300" : ""}
+            `}
+            />
           </PaginationItem>
 
           {new Array(data.pagination.totalPages).fill("_").map((_, i) => (
@@ -79,10 +90,19 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
           ))}
 
           <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext
+              onClick={nextPage}
+              className={`
+            ${data.pagination.last ? "cursor-not-allowed  text-gray-300" : ""}
+            `}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+      <div className="flex justify-center mt-8">
+        {isFetching && <div>Fetching...</div>}
+        {isPlaceholderData && <div>Loading...</div>}
+      </div>
     </div>
   );
 }
