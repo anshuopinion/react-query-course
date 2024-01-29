@@ -3,8 +3,16 @@ import { BlogResponseType } from "@/types";
 import { getPaginatedBlogs } from "@/api";
 import { BlogHandler } from "../blogs/BlogHandler";
 import { BlogCard } from "../blogs/BlogCard";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 export interface PaginatedBlogsProps {}
 
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
@@ -53,22 +61,31 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
         {isFetching && <div>Fetching...</div>}
         {isPlaceholderData && <div>Loading...</div>}
       </>
-      <div className="mt-8 flex justify-between ">
-        <Button>Prev</Button>
-        <div className="flex gap-4">
-          {new Array(5).fill(0).map((_, i) => (
-            <div
-              key={i}
-              className={`${
-                i + 1 === page ? "bg-gray-300" : "bg-gray-100"
-              } px-4 py-2 rounded-md`}
-            >
-              {i + 1}
-            </div>
-          ))}
-        </div>
-        <Button>Next</Button>
-      </div>
+
+      <Pagination className="mt-8">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#" isActive>
+              2
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">3</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
