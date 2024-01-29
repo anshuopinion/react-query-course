@@ -7,7 +7,6 @@ import { useState } from "react";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -18,11 +17,11 @@ export interface PaginatedBlogsProps {}
 export function PaginatedBlogs(props: PaginatedBlogsProps) {
   const {} = props;
   const [page, setPage] = useState(1);
-  const limit = 4;
+  const limit = 2;
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery<BlogResponseType>({
-      queryKey: ["PAGINATED_BLOGS"],
+      queryKey: ["PAGINATED_BLOGS", page],
       queryFn: () => getPaginatedBlogs({ page, limit }),
       placeholderData: keepPreviousData,
     });
@@ -67,20 +66,18 @@ export function PaginatedBlogs(props: PaginatedBlogsProps) {
           <PaginationItem>
             <PaginationPrevious href="#" />
           </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
+
+          {new Array(data.pagination.totalPages).fill("_").map((_, i) => (
+            <PaginationItem>
+              <PaginationLink
+                onClick={() => setPage(i + 1)}
+                isActive={page === i + 1}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
           <PaginationItem>
             <PaginationNext href="#" />
           </PaginationItem>
